@@ -76,7 +76,7 @@ class MOEAD(object):
             self.toolbox.mate
             self.toolbox.mutate
         except Exception as e:
-            print "Error in MOEAD.__init__: toolbox.mutate or toolbox.mate is not assigned."
+            print( "Error in MOEAD.__init__: toolbox.mutate or toolbox.mate is not assigned.")
             raise e                     
 
         ### Additional stuff not from JMetal implementation
@@ -89,7 +89,7 @@ class MOEAD(object):
         
         self.maxEvaluations = -1
         if maxEvaluations == ngen == 0:
-            print "maxEvaluations or ngen must be greater than 0."
+            print( "maxEvaluations or ngen must be greater than 0.")
             raise ValueError
         if ngen > 0:
             self.maxEvaluations =  ngen * self.populationSize_
@@ -106,13 +106,13 @@ class MOEAD(object):
         self.delta_ = delta
         
     def execute(self):
-        print "Executing MOEA/D"
+        print( "Executing MOEA/D")
 
         logbook = tools.Logbook()
         logbook.header = ['gen', 'evals'] + (self.stats.fields if self.stats else [])
         
         self.evaluations_ = 0
-        print "POPSIZE:", self.populationSize_
+        print( "POPSIZE:", self.populationSize_)
     
         self.indArray_ = [ self.toolbox.individual() for _ in range(self.n_objectives) ]
 
@@ -133,7 +133,7 @@ class MOEAD(object):
         record = self.stats.compile(self.population) if self.stats is not None else {}
         
         logbook.record(gen=self.ngen , evals=self.evaluations_, **record)
-        if self.verbose: print logbook.stream
+        if self.verbose: print (logbook.stream)
         
         while self.evaluations_ < self.maxEvaluations:
             permutation = [None] * self.populationSize_ # Of type int
@@ -191,7 +191,7 @@ class MOEAD(object):
 
                 logbook.record(gen=self.ngen, evals=self.evaluations_, **record )
 
-                if self.verbose: print logbook.stream
+                if self.verbose: print (logbook.stream)
 
                 
         return self.population
@@ -229,11 +229,11 @@ class MOEAD(object):
                             weight_scalars[2] = float(k) / (m)
                             self.lambda_.append(weight_scalars)
                         except Exception as e:
-                            print "Error creating weight with 3 objectives at:"
-                            print "count", count
-                            print "i", i
-                            print "j", j
-                            print "k", k
+                            print( "Error creating weight with 3 objectives at:")
+                            print( "count", count)
+                            print( "i", i)
+                            print( "j", j)
+                            print( "k", k)
                             raise e
             # Trim number of weights to fit population size
             self.lambda_ = sorted((x for x in self.lambda_), key=lambda x: sum(x), reverse=True)
@@ -255,18 +255,18 @@ class MOEAD(object):
                                 self.lambda_[i][j] = float(value)
                                 j += 1
                         except Exception as e:
-                            print "Error loading floats as weight vectors"
-                            print "tokens", tokens
-                            print "value:",  value
-                            print "lambda_", len(self.lambda_),"*",len(self.lambda_[0])
-                            print i, j, aux_
-                            print e
+                            print( "Error loading floats as weight vectors")
+                            print( "tokens", tokens)
+                            print( "value:",  value)
+                            print( "lambda_", len(self.lambda_),"*",len(self.lambda_[0]))
+                            print (i, j, aux_)
+                            print (e)
                             raise e
                         i += 1
                 f.close()
             except Exception as e:
-                print "initUniformWeight: failed when reading for file:", file_
-                print e
+                print( "initUniformWeight: failed when reading for file:", file_)
+                print (e)
                 raise e
 
     """ 
@@ -422,7 +422,7 @@ class MOEAD(object):
 
             fitness = maxFun 
         else:
-            print "MOEAD.fitnessFunction: unknown type", self.functionType_
+            print( "MOEAD.fitnessFunction: unknown type", self.functionType_)
             raise NotImplementedError
         
         return fitness
